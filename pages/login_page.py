@@ -1,7 +1,9 @@
 from selenium.webdriver.common.by import By
+from core.actions import Actions
 
 class LoginPage:
 
+    URL = "https://the-internet.herokuapp.com/login"
     USERNAME = (By.ID, "username")
     PASSWORD = (By.ID, "password")
     LOGIN_BTN = (By.CSS_SELECTOR, "button[type='submit']") # assigning the locators to a var
@@ -9,14 +11,15 @@ class LoginPage:
 
     def __init__(self, driver): #this is for getting the driver
         self.driver = driver
+        self.actions = Actions(driver)
 
-    def open (self):
-        self.driver.get("https://the-internet.herokuapp.com/login")
+    def open(self):
+        self.driver.get(self.URL)
 
-    def login (self, user, pwd):
-        self.driver.find_element(*self.USERNAME).send_keys(user)
-        self.driver.find_element(*self.PASSWORD).send_keys(pwd)
-        self.driver.find_element(*self.LOGIN_BTN).click()
+    def login (self, username, password):
+        self.actions.type(self.USERNAME, username)
+        self.actions.type(self.PASSWORD, password)
+        self.actions.click(self.LOGIN_BTN)
 
     def get_message(self):
-        return self.driver.find_element(*self.SUCCESS_MSG).text
+        return  self.actions.get_text(self.SUCCESS_MSG)
