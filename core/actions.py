@@ -1,8 +1,8 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+# This file main fn is for actions
 class Actions:
-    def __init__(self,driver):
+    def __init__(self,driver): # can explain why init? and also self parameter for python
         self.driver = driver
         self.wait = WebDriverWait(driver,10)
 
