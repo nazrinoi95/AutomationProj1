@@ -7,8 +7,7 @@ class LoginPage:
     USERNAME = (By.ID, "username")
     PASSWORD = (By.ID, "password")
     LOGIN_BTN = (By.CSS_SELECTOR, "button[type='submit']")
-    SUCCESS_MSG = (By.ID, "flash")
-    ERROR_MSG = (By.ID, "flash")
+    FLASH_MSG = (By.ID, "flash")
 
     def __init__(self, driver): #this is for getting the driver
         self.driver = driver
@@ -23,8 +22,5 @@ class LoginPage:
         self.actions.click(self.LOGIN_BTN)
         return self
 
-    def get_success_message(self):
-        return  self.actions.get_text(self.SUCCESS_MSG)
-
-    def get_error_message(self):
-        return self.actions.get_text(self.ERROR_MSG)
+    def get_message(self):
+        return  self.actions.get_text(self.FLASH_MSG)
