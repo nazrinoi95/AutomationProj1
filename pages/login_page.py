@@ -10,6 +10,7 @@ class LoginPage:
     PASSWORD = (By.ID, "password")
     LOGIN_BTN = (By.CSS_SELECTOR, "button[type='submit']")
     FLASH_MSG = (By.ID, "flash")
+    LOGOUT_BTN = (By.PARTIAL_LINK_TEXT, "Logout")
 
     def __init__(self, driver):  # this is for getting the driver
         """Initialize the LoginPage class with a WebDriver instance and Actions helper."""
@@ -33,3 +34,15 @@ class LoginPage:
     def get_message(self):
         """Get the flash message text displayed after login attempt."""
         return self.actions.get_text(self.FLASH_MSG)
+
+    def get_current_url(self):
+        """Get the current URL of the browser."""
+        return self.actions.get_url()
+
+    def get_pagetitle(self):
+        """Get the title of the current page."""
+        return self.driver.title
+
+    def is_logout_visible(self):
+        """Check the logout button is visible in the secure area."""
+        return self.actions.is_element_visible(self.LOGOUT_BTN)
