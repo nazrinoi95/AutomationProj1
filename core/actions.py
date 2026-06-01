@@ -30,3 +30,10 @@ class Actions:
     def get_url(self):
         """Get the current URL of the browser."""
         return self.driver.current_url
+
+    def is_element_visible(self, locator):
+        """Check if an element identified by the given locator is visible on the page."""
+        try:
+            return self.wait.until(EC.visibility_of_element_located(locator)).is_displayed()
+        except:
+            return False
