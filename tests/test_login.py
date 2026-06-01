@@ -17,7 +17,7 @@ def test_valid_login(driver):  # setup will be injected from the conftestfiles
     success_message = login_page.get_message()
     assert "You logged into a secure area!" in success_message
     assert login_page.get_current_url() == "https://the-internet.herokuapp.com/secure"
-    assert login_page.is_logout_visible() == True
+    assert login_page.is_logout_button_visible() == True
 
 
 def test_invalid_login(driver):
@@ -26,6 +26,8 @@ def test_invalid_login(driver):
     login_page.login("wrong", "NotPassword")
     error_message = login_page.get_message()
     assert "Your username is invalid!" in error_message
+    assert login_page.get_current_url() == "https://the-internet.herokuapp.com/login"
+    assert login_page.is_login_button_visible()== True
 
 
 def test_invalid_login_wrong_username(driver):
@@ -34,6 +36,8 @@ def test_invalid_login_wrong_username(driver):
     login_page.login("tomsmiths", "SuperSecretPassword!")
     error_message = login_page.get_message()
     assert "Your username is invalid!" in error_message
+    assert login_page.get_current_url() == "https://the-internet.herokuapp.com/login"
+    assert login_page.is_login_button_visible() == True
 
 
 def test_login_empty_fields(driver):
@@ -42,3 +46,5 @@ def test_login_empty_fields(driver):
     login_page.login("", "")
     error_message = login_page.get_message()
     assert "Your username is invalid!" in error_message
+    assert login_page.get_current_url() == "https://the-internet.herokuapp.com/login"
+    assert login_page.is_login_button_visible() == True

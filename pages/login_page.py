@@ -43,6 +43,10 @@ class LoginPage:
         """Get the title of the current page."""
         return self.driver.title
 
-    def is_logout_visible(self):
+    def is_logout_button_visible(self):
         """Check the logout button is visible in the secure area."""
         return self.actions.is_element_visible(self.LOGOUT_BTN)
+
+    def is_login_button_visible(self):
+        """Check the login button is visible in the login page."""
+        return self.actions.is_element_visible(self.LOGIN_BTN)
