@@ -1,4 +1,5 @@
 import pytest #This imports the pytest library
+from utils.screenshot import take_screenshot #This imports from utils file with take_screenshot fn and import the take_screenshot method
 from core.driver import get_driver #This imports from core file with driver fn and import the get_driver method
 
 def pytest_addoption(parser): #method
@@ -14,7 +15,6 @@ def driver(request):#method
     driver = get_driver(browser=browser, headless=headless) #Calls the driver.py
     yield driver # This one for cleanup
     driver.quit()
-
     #Flow would be
     # driver created
     # ↓
@@ -23,3 +23,11 @@ def driver(request):#method
     # test uses driver
     # ↓
     # driver.quit()
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item,call):
+    outcome = yield
+    report = outcome.get_result()
+    if report.when == "call" and report.failed:
+        driver = item.funcargs.get("driver")
+        if driver:
+            take_screenshot(driver,item.name)
