@@ -1,5 +1,4 @@
 from pages.login_page import LoginPage
-from utils.screenshot import take_screenshot
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -24,8 +23,6 @@ def test_valid_login(driver):  # setup will be injected from the conftestfiles
     assert login_page.get_current_url() == "https://the-internet.herokuapp.com/secure"
     assert login_page.is_logout_button_visible() == True
 
-    take_screenshot(driver,"test_valid_login")
-    # take a screenshot after successful login
     logger.info("Test 'test_valid_login' passed successfully.")
 
 
