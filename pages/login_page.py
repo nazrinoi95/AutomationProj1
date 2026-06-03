@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
 from core.actions import Actions
-
+from utils.config import get_config
 
 # This file is for login page
 class LoginPage:
     # This section is assigning locators to a variables
-    URL = "https://the-internet.herokuapp.com/login"
+    URL = get_config("BASE_URL")  + "/login"
     USERNAME = (By.ID, "username")
     PASSWORD = (By.ID, "password")
     LOGIN_BTN = (By.CSS_SELECTOR, "button[type='submit']")
