@@ -1,5 +1,8 @@
 from pages.login_page import LoginPage
+from utils.screenshot import take_screenshot
+from utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 # This file is the test
 def _setup_login_page(driver):  # this is the helper "private" class to simplify steps
@@ -15,9 +18,15 @@ def test_valid_login(driver):  # setup will be injected from the conftestfiles
     login_page.login("tomsmith",
                      "SuperSecretPassword!")  # does this overwrites the username and password in login_page?
     success_message = login_page.get_message()
+    logger.info(f"Login success message: {success_message}")
+
     assert "You logged into a secure area!" in success_message
     assert login_page.get_current_url() == "https://the-internet.herokuapp.com/secure"
     assert login_page.is_logout_button_visible() == True
+
+    take_screenshot(driver,"test_valid_login")
+    # take a screenshot after successful login
+    logger.info("Test 'test_valid_login' passed successfully.")
 
 
 def test_invalid_login(driver):
