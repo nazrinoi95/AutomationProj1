@@ -1,6 +1,8 @@
+import pytest
 from pages.login_page import LoginPage
 from utils.logger import get_logger
 from utils.config import get_config
+
 
 logger = get_logger(__name__)
 
@@ -11,7 +13,8 @@ def _setup_login_page(driver):  # this is the helper "private" class to simplify
     login_page.open()
     return login_page
 
-
+@pytest.mark.regression
+@pytest.mark.smoke
 def test_valid_login(driver):  # setup will be injected from the conftestfiles
     """Tests successful login with valid credentials."""
     login_page = _setup_login_page(driver)
@@ -25,7 +28,8 @@ def test_valid_login(driver):  # setup will be injected from the conftestfiles
 
     logger.info("Test 'test_valid_login' passed successfully.")
 
-
+@pytest.mark.regression
+@pytest.mark.smoke
 def test_invalid_login(driver):
     """Tests login failure with invalid username and password."""
     login_page = _setup_login_page(driver)
@@ -35,7 +39,7 @@ def test_invalid_login(driver):
     assert login_page.get_current_url() == get_config("BASE_URL") + "/login"
     assert login_page.is_login_button_visible()== True
 
-
+@pytest.mark.regression
 def test_invalid_login_wrong_username(driver):
     """Tests login failure with incorrect username but correct password."""
     login_page = _setup_login_page(driver)
@@ -45,6 +49,7 @@ def test_invalid_login_wrong_username(driver):
     assert login_page.get_current_url() == get_config("BASE_URL") + "/login"
     assert login_page.is_login_button_visible() == True
 
+@pytest.mark.regression
 def test_invalid_login_wrong_password(driver):
     """Tests login failure with incorrect username but correct password."""
     login_page = _setup_login_page(driver)
@@ -54,7 +59,7 @@ def test_invalid_login_wrong_password(driver):
     assert login_page.get_current_url() == get_config("BASE_URL") + "/login"
     assert login_page.is_login_button_visible() == True
 
-
+@pytest.mark.regression
 def test_login_empty_fields(driver):
     """Tests login failure when both username and password fields are empty."""
     login_page = _setup_login_page(driver)
