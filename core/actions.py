@@ -1,10 +1,9 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
-
-# This file main fn is for actions
 class Actions:
-    def __init__(self, driver):  # can explain why init? and also self parameter for python
+    def __init__(self, driver):
         """Initialize the Actions class with a WebDriver instance and set up WebDriverWait."""
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
@@ -35,5 +34,5 @@ class Actions:
         """Check if an element identified by the given locator is visible on the page."""
         try:
             return self.wait.until(EC.visibility_of_element_located(locator)).is_displayed()
-        except:
+        except TimeoutException:
             return False
