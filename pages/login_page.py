@@ -2,9 +2,7 @@ from selenium.webdriver.common.by import By
 from core.actions import Actions
 from utils.config import get_config
 
-# This file is for login page
 class LoginPage:
-    # This section is assigning locators to a variables
     URL = get_config("BASE_URL")  + "/login"
     USERNAME = (By.ID, "username")
     PASSWORD = (By.ID, "password")
@@ -12,7 +10,7 @@ class LoginPage:
     FLASH_MSG = (By.ID, "flash")
     LOGOUT_BTN = (By.PARTIAL_LINK_TEXT, "Logout")
 
-    def __init__(self, driver):  # this is for getting the driver
+    def __init__(self, driver):
         """Initialize the LoginPage class with a WebDriver instance and Actions helper."""
         self.driver = driver
         self.actions = Actions(driver)
@@ -39,7 +37,7 @@ class LoginPage:
         """Get the current URL of the browser."""
         return self.actions.get_url()
 
-    def get_pagetitle(self):
+    def get_page_title(self):
         """Get the title of the current page."""
         return self.driver.title
 

@@ -1,28 +1,20 @@
-import pytest #This imports the pytest library
-from utils.screenshot import take_screenshot #This imports from utils file with take_screenshot fn and import the take_screenshot method
-from core.driver import get_driver #This imports from core file with driver fn and import the get_driver method
+import pytest
+from utils.screenshot import take_screenshot
+from core.driver import get_driver
 
-def pytest_addoption(parser): #method
-    parser.addoption("--browser", action="store", default="chrome") #This stores browser = chrome, that is what action does
-    parser.addoption("--headless", action="store_true") #This ones stores if true, eg: --headless = Y , --headless = true
-    #Why do we use the parser.adoption method or class idk?
+def pytest_addoption(parser):
+    # Registers CLI options so tests can be run with --browser and --headless flags
+    parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--headless", action="store_true")
 
-@pytest.fixture #This provide resources for test : setup → give resource → cleanup. Resource now is SWD?
-def driver(request):#method
-    browser = request.config.getoption("--browser") #This read the value from command line and store it
-    headless = request.config.getoption("--headless") #This read the value from command line and store it
-
-    driver = get_driver(browser=browser, headless=headless) #Calls the driver.py
-    yield driver # This one for cleanup
+@pytest.fixture
+def driver(request):
+    browser = request.config.getoption("--browser")
+    headless = request.config.getoption("--headless")
+    driver = get_driver(browser=browser, headless=headless)
+    yield driver
     driver.quit()
-    #Flow would be
-    # driver created
-    # ↓
-    # yield driver
-    # ↓
-    # test uses driver
-    # ↓
-    # driver.quit()
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item,call):
     outcome = yield
