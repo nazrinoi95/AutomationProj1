@@ -1,4 +1,5 @@
 import pytest
+import csv
 from pages.login_page import LoginPage
 from utils.logger import get_logger
 from utils.config import get_config
@@ -11,6 +12,24 @@ def _setup_login_page(driver):
     login_page = LoginPage(driver)
     login_page.open()
     return login_page
+
+def _load_login_data(file='tests/data/login_data.csv'):
+    """Load login data from CSV file"""
+    with open(file) as f:
+        reader = csv.DictReader(f)
+        return [(row['username'], row['password'], row['expected_message'], row['expected_path']) for row in reader]
+
+@pytest.mark.regression
+@pytest.mark.parametrize("username,password,expected_message,expected_path", _load_login_data())
+def test_login_parametrized(driver, username,password,expected_message,expected_path):
+    """Test login with multiple credential combinations from CSV."""
+    login_page=_setup_login_page(driver)
+    login_page.login(username, password)
+    actual_message= login_page.get_message()
+    logger.info(f"Login message:{actual_message}")
+
+    assert expected_message in actual_message
+    assert login_page.get_current_url() == get_config("BASE_URL") + expected_path
 
 @pytest.mark.regression
 @pytest.mark.smoke
