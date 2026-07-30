@@ -1,0 +1,6 @@
+username,password,expected_message,expected_path
+tomsmith,SuperSecretPassword!,"You logged into a secure area!",/secure
+invalid_user,invalid_password,"Your username is invalid!",/login
+invalid_user,SuperSecretPassword!,"Your username is invalid!",/login
+tomsmith,invalid_password,"Your password is invalid!",/login
+"","","Your username is invalid!",/login
