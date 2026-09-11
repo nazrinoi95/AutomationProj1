@@ -7,9 +7,9 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--headless", action="store_true")
 
-@pytest.fixture
+@pytest.fixture(params=["chrome","firefox"])
 def driver(request):
-    browser = request.config.getoption("--browser")
+    browser = request.param
     headless = request.config.getoption("--headless")
     driver = get_driver(browser=browser, headless=headless)
     yield driver
