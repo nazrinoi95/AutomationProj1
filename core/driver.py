@@ -1,3 +1,8 @@
+import os
+
+from utils.config import get_config
+
+os.environ["GH_TOKEN"] = get_config("GH_TOKEN")  # Set the GitHub token for webdriver-manager to avoid rate limits
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
