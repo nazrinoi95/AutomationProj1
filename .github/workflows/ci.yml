@@ -57,3 +57,32 @@ jobs:
             name: test-execution-report
             path: reports/
             retention-days: 7
+
+      - name: Report status to PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const state = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+            
+            // Get the SHA depending on trigger type
+            let sha;
+            if (context.eventName === 'issue_comment') {
+              const pr = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.issue.number
+              });
+              sha = pr.data.head.sha;
+            } else {
+              sha = context.sha;
+            }
+              
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: sha,
+              state: state,
+              context: 'Run Automated Tests',
+              description: state === 'success' ? 'Tests passed' : 'Tests failed'
+            });
