@@ -6,11 +6,19 @@ on:
   workflow_dispatch:
   push:
     branches: [Master]
+  issue_comment:
+    types: [created]
 
 # 3. JOBS — what machine to use?
 jobs:
   test:
     name: Run Automated Tests
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'issue_comment' && 
+       github.event.comment.body == '/run-ui-tests' &&
+       github.event.issue.pull_request)
     runs-on: ubuntu-latest
 
 # 4. STEPS — what to actually do?
@@ -40,7 +48,7 @@ jobs:
           INVALID_USERNAME: ${{ secrets.INVALID_USERNAME }}
           INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: pytest tests/ -v --headless
+        run: pytest tests/ -v --headless --html=reports/report.html --self-contained-html
 
       - name: Upload Test Artifacts
         if: always()
