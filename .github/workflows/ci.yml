@@ -1,7 +1,7 @@
-# 1. NAME — what to call this workflow
+# 1. NAME
 name: CI Tests
 
-# 2. TRIGGER — when should this run?
+# 2. TRIGGER
 on:
   workflow_dispatch:
   push:
@@ -9,7 +9,7 @@ on:
   issue_comment:
     types: [created]
 
-# 3. JOBS — what machine to use?
+# 3. JOBS
 jobs:
   test:
     name: Run Automated Tests
@@ -21,7 +21,7 @@ jobs:
        github.event.issue.pull_request)
     runs-on: ubuntu-latest
 
-# 4. STEPS — what to actually do?
+# 4. STEPS
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
