@@ -1,0 +1,51 @@
+# 1. NAME — what to call this workflow
+name: CI Tests
+
+# 2. TRIGGER — when should this run?
+on:
+  workflow_dispatch:
+  push:
+    branches: [Master]
+
+# 3. JOBS — what machine to use?
+jobs:
+  test:
+    name: Run Automated Tests
+    runs-on: ubuntu-latest
+
+# 4. STEPS — what to actually do?
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Install Firefox
+        uses: browser-actions/setup-firefox@v1
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          VALID_USERNAME: ${{ secrets.VALID_USERNAME }}
+          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+          INVALID_USERNAME: ${{ secrets.INVALID_USERNAME }}
+          INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: pytest tests/ -v --headless
+
+      - name: Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+            name: test-execution-report
+            path: reports/
+            retention-days: 7
