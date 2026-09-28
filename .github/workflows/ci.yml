@@ -15,6 +15,7 @@ jobs:
     name: Run Automated Tests
     permissions:
       statuses: write
+      pull-requests: read
     if: |
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'push' ||
