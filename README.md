@@ -1,5 +1,5 @@
 # AutomationProj1 
-A simple automation project designed to demonstrate how a propper test automation suite would look like.
+A simple automation project designed to demonstrate how a proper test automation suite would look like.
 
 ## Tech Stack
 - Python 3.13
