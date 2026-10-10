@@ -1,5 +1,5 @@
 # AutomationProj1 
-A simple automation project designed to demonstrate how a propper test automation suite would look like.
+A simple automation project designed to demonstrate how a proper test automation suite would look like.
 
 ## Tech Stack
 - Python 3.13
@@ -23,8 +23,8 @@ AutomationProj1/
 ```
 ## Pre-requisites
 - Python 3.13 installed on your machine.
-- Google Chrome browser installed.
-- ChromeDriver installed and added to your system PATH. You can download it from [here](https://sites.google.com/chromium.org/driver/).
+- Google Chrome / Mozilla Firefox browser installed.
+- ChromeDriver installed and added to your system PATH.
 - Git installed on your machine.
 
 ## Setup
@@ -53,10 +53,10 @@ cp .env.example .env
 pytest tests/ -v
 
 # Run smoke tests only
-pytest tests/smoke/ -v -m smoke
+pytest tests/ -v -m smoke
 
 # Run regression tests only
-pytest tests/regression/ -v -m regression
+pytest tests/ -v -m regression
 
 # Run headless tests
 pytest tests/ -v --headless
